@@ -1,10 +1,16 @@
 {
   "name": "sudoku-react",
-  "version": "0.1.0",
+  "description": "A sudoku game built with react",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.7.0",
+    "history": "^4.10.1",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0"
   },
   "scripts": {
@@ -27,5 +33,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^18.0.1"
   }
 }

@@ -1,0 +1,36 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "jest": true,
+    "browser": true
+  },
+  "rules": {
+    "react/jsx-max-props-per-line": [1, { "maximum": 3 }],
+    "react/destructuring-assignment": 0,
+    "implicit-arrow-linebreak": 0,
+    "import/no-named-as-default": 0,
+    "import/no-named-as-default-member": 0,
+    "react/jsx-filename-extension": [1, {
+      "extensions": [".js", ".jsx"]
+    }],
+    "valid-jsdoc": 1,
+    "require-jsdoc": [1, {
+      "require": {
+        "MethodDefinition": true,
+        "ClassDeclaration": true,
+        "FunctionDeclaration": true
+      }
+    }],
+    "react/prop-types": [2, { "ignore": ["classes"] }]
+  },
+  "overrides": [
+    {
+      "files": ["webpack.*.js"],
+      "rules": {
+        "import/no-extraneous-dependencies": 0
+      }
+    }
+  ]
+}
