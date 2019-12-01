@@ -276,7 +276,7 @@ export class SudokuBoard extends React.Component {
   validateRows = (data) => {
     if (data) {
       for (let i = 0; i < 9; i += 1) {
-        const invalid = this.countInRow(i, data);
+        const invalid = this.countInArray(i, data, 'row');
         // console.log('i - ', invalid);
         if (invalid && invalid.length > 0) {
           invalid.forEach((num) => {
@@ -290,7 +290,7 @@ export class SudokuBoard extends React.Component {
   validateColumns = (data) => {
     if (data) {
       for (let i = 0; i < 9; i += 1) {
-        const invalid = this.countInColumn(i, data);
+        const invalid = this.countInArray(i, data, 'col');
         // console.log('i - ', invalid);
         if (invalid && invalid.length > 0) {
           invalid.forEach((num) => {
@@ -301,29 +301,11 @@ export class SudokuBoard extends React.Component {
     }
   }
 
-  countInColumn = (colStart, data) => {
+  countInArray = (start, data, type = 'col') => {
     const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const invalidArr = [];
     for (let i = 0; i < 9; i += 1) {
-      const idx = (i) * 9 + colStart;
-      // console.log('zz - ', idx, data[idx].value);
-      const num = data[idx].value;
-      arr[num] += 1;
-    }
-    arr.forEach((e, idx) => {
-      if (e > 1 && idx > 0) {
-        // console.log('idx - ', idx);
-        invalidArr.push(idx);
-      }
-    });
-    return invalidArr;
-  }
-
-  countInRow = (rowStart, data) => {
-    const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const invalidArr = [];
-    for (let i = 0; i < 9; i += 1) {
-      const idx = (rowStart) * 9 + i;
+      const idx = type === 'col' ? (i) * 9 + start : (start) * 9 + i;
       // console.log('zz - ', idx, data[idx].value);
       const num = data[idx].value;
       arr[num] += 1;
