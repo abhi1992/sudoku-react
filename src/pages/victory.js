@@ -25,6 +25,7 @@ class Victory extends React.Component {
 
   /**
    * componentDidMount
+   * @returns {void} null
    */
   componentDidMount() {
     fetchVictory((data) => {

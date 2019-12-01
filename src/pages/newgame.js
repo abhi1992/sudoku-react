@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { fetchNewGame, postVictory } from '../services/api';
-import { SudokuBoard } from '../components/sudokuboard';
+import SudokuBoard from '../components/sudokuboard';
 
 /**
  * React Component
+ * @param {string} time time
+ * @returns {void} null
  */
 class NewGame extends React.Component {
   /**

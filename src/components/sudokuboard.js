@@ -4,19 +4,12 @@ import * as d3 from 'd3';
 import _ from 'lodash';
 import c from '../constants';
 
-
-export const styles = () => ({
-  button: {
-    color: 'primary',
-  },
-});
-
 /**
  * SudokuBoard
  * @param {Object} props React props
- * @returns {ReactComponent} menu button component
+ * @returns {void} null
  */
-export class SudokuBoard extends React.Component {
+class SudokuBoard extends React.Component {
   /**
    * Constructor
    * @param {Object} props props
@@ -444,7 +437,6 @@ export class SudokuBoard extends React.Component {
    * @returns {ReactComponent} comp
    */
   render() {
-    const { x, y } = this.state;
     return (
       <div className="svg-container">
         <svg
@@ -454,14 +446,12 @@ export class SudokuBoard extends React.Component {
           onClick={this.onSvgClick.bind(this)}
           focusable="true"
         />
-        <h1>
-          { x }
-          { y }
-        </h1>
       </div>
     );
   }
 }
+
+export default SudokuBoard;
 
 SudokuBoard.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
