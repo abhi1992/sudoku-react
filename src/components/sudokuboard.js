@@ -79,17 +79,24 @@ export class SudokuBoard extends React.Component {
       case c.NINE:
         this.fillValue(9);
         break;
+      case c.ZERO:
+        this.eraseValue();
+        break;
       default:
         break;
     }
   };
 
-  fillValue = (value) => {
+  eraseValue = () => {
+    this.fillValue(0, false);
+  }
+
+  fillValue = (value, filled = true) => {
     const { data, x, y } = this.state;
     const idx = this.convertXYtoIndex(x, y);
     if (idx > -1 && idx < 81 && !data[idx].fixed) {
       data[idx].value = value;
-      data[idx].filled = true;
+      data[idx].filled = filled;
       this.drawBoard(this.state.offX, this.state.offY);
     }
   }

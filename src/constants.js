@@ -15,4 +15,5 @@ export default {
   SEVEN: 55,
   EIGHT: 56,
   NINE: 57,
+  ZERO: 48,
 };
