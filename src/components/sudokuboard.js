@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
+import _ from 'lodash';
 import c from '../constants';
 
 
@@ -91,12 +92,12 @@ export class SudokuBoard extends React.Component {
   checkForVictory = () => {
     const { data, isErrored } = this.state;
     if (isErrored.length > 0) {
-      console.log('>0');
+      // console.log('>0');
       return false;
     }
     for (let i = 0; i < 81; i += 1) {
       if (!data[i].filled && !data[i].fixed) {
-        console.log('ff');
+        // console.log('ff');
         return false;
       }
     }
@@ -279,7 +280,7 @@ export class SudokuBoard extends React.Component {
         // console.log('i - ', invalid);
         if (invalid && invalid.length > 0) {
           invalid.forEach((num) => {
-            this.showErrorInRowCell(i, num, data);
+            this.showErrorInCell(i, num, data, 'row');
           });
         }
       }
@@ -293,7 +294,7 @@ export class SudokuBoard extends React.Component {
         // console.log('i - ', invalid);
         if (invalid && invalid.length > 0) {
           invalid.forEach((num) => {
-            this.showErrorInColumnCell(i, num, data);
+            this.showErrorInCell(i, num, data, 'col');
           });
         }
       }
@@ -336,30 +337,17 @@ export class SudokuBoard extends React.Component {
     return invalidArr;
   }
 
-  showErrorInColumnCell = (colStart, num, data) => {
+  showErrorInCell = (start, num, data, type = 'col') => {
     for (let i = 0; i < 9; i += 1) {
-      const idx = (i) * 9 + colStart;
-      // console.log('zz - ', idx);
+      const idx = type === 'col' ? (i) * 9 + start : (start) * 9 + i;
       if (data[idx].value === num && data[idx].filled) {
         const coord = this.getCoordinatesFromIndex(idx);
         const { isErrored } = this.state;
+        if (_.indexOf(idx) !== -1) {
+          this.selectCubeById(coord.x, coord.y, 'rgb(200,0,0, 0.3)');
+        }
         isErrored.push(idx);
         this.setState({ isErrored });
-        this.selectCubeById(coord.x, coord.y, 'rgb(200,0,0, 0.3)');
-      }
-    }
-  }
-
-  showErrorInRowCell = (rowStart, num, data) => {
-    for (let i = 0; i < 9; i += 1) {
-      const idx = (rowStart) * 9 + i;
-      // console.log('zz - ', idx);
-      if (data[idx].value === num && data[idx].filled) {
-        const coord = this.getCoordinatesFromIndex(idx);
-        const { isErrored } = this.state;
-        isErrored.push(idx);
-        this.setState({ isErrored });
-        this.selectCubeById(coord.x, coord.y, 'rgb(200,0,0, 0.3)');
       }
     }
   }
