@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Switch, Route, Router } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -14,9 +14,9 @@ ReactDOM.render(
   <Router history={history}>
     <App />
     <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/new" component={NewGame} />
-      <Route path="/about" render={() => <About game={Constants.GAME_NAME} history={history} version={Constants.Version} />} />
+      <Route exact path="/" render={() => <Home game={Constants.GAME_NAME} history={history} />} />
+      <Route exact path="/new" history={history} component={NewGame} />
+      <Route exact path="/about" render={() => <About game={Constants.GAME_NAME} history={history} version={Constants.Version} />} />
     </Switch>
   </Router>,
   document.getElementById('root'),

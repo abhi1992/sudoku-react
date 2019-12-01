@@ -37,8 +37,12 @@ class Home extends React.Component {
    * @returns {ReactComponent} Home Page
    */
   render() {
+    const { game } = this.props;
     return (
       <div className="align-center">
+        <span className="game-title">{game}</span>
+        <br />
+        <br />
         <Typography component="div" variant="body1">
           <Box color="primary.main">
             <MenuButton text="New Game" onClick={this.onNewGameClick} />
@@ -58,4 +62,5 @@ Home.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  game: PropTypes.string.isRequired,
 };

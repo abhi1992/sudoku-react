@@ -1,4 +1,18 @@
 export default {
   GAME_NAME: 'Sudoku',
   Version: 'v0.0.1',
+  NEWGAME_URL: 'http://localhost:8080/api',
+  UP: 38,
+  DOWN: 40,
+  LEFT: 37,
+  RIGHT: 39,
+  ONE: 49,
+  TWO: 50,
+  THREE: 51,
+  FOUR: 52,
+  FIVE: 53,
+  SIX: 54,
+  SEVEN: 55,
+  EIGHT: 56,
+  NINE: 57,
 };
