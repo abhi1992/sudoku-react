@@ -52,7 +52,7 @@ export class SudokuBoard extends React.Component {
   }
 
   handleKeyDown = (event) => {
-    console.log(event.keyCode);
+    // console.log(event.keyCode);
     switch (event.keyCode) {
       case c.ONE:
         this.fillValue(1);
@@ -126,20 +126,26 @@ export class SudokuBoard extends React.Component {
   convertXYtoIndex = (x, y) => y * 9 + x;
 
   onSvgClick = (e) => {
-    this.setSelectedSquare(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+    const selected = this.setSelectedSquare(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
     // this.setSelectedSquare(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
     // console.log('aa - ', e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-    this.drawBoard(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+    if (selected) {
+      this.drawBoard(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+    }
   }
 
   setSelectedSquare = (x1, y1) => {
     const { x, y } = this.getCubeIdForLocation(x1, y1);
-    this.setState({
-      x,
-      y,
-      offX: x1,
-      offY: y1,
-    });
+    if (x < 9 && x >= 0 && y >= 0 && y < 9) {
+      this.setState({
+        x,
+        y,
+        offX: x1,
+        offY: y1,
+      });
+      return true;
+    }
+    return false;
   }
 
   clearBoard = () => {
