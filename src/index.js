@@ -2,20 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Switch, Route, Router } from 'react-router-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import history from './history';
 import Home from './pages/home';
 import About from './pages/about';
 import Constants from './constants';
 import NewGame from './pages/newgame';
+import Victory from './pages/victory';
 
 ReactDOM.render(
   <Router history={history}>
-    <App />
     <Switch>
       <Route exact path="/" render={() => <Home game={Constants.GAME_NAME} history={history} />} />
-      <Route exact path="/new" history={history} component={NewGame} />
+      <Route
+        exact path="/new" history={history}
+        component={NewGame}
+      />
+      <Route
+        exact path="/victory"
+        render={() => <Victory history={history} />}
+      />
       <Route exact path="/about" render={() => <About game={Constants.GAME_NAME} history={history} version={Constants.Version} />} />
     </Switch>
   </Router>,

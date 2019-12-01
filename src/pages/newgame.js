@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import fetchNewGame from '../services/api';
+import { fetchNewGame, postVictory } from '../services/api';
 import { SudokuBoard } from '../components/sudokuboard';
 
 /**
@@ -20,6 +20,7 @@ class NewGame extends React.Component {
     };
   }
 
+
   /**
    * @returns {void}
    */
@@ -32,13 +33,24 @@ class NewGame extends React.Component {
     });
   }
 
+  onVictory = (time) => {
+    // this.setState({ time });
+    const { history } = this.props;
+    this.setState({
+      isLoading: true,
+    });
+    postVictory({ time }, () => {
+      history.push('/victory');
+    });
+  }
+
   /**
    * Displays the sudoku
    * @param {Object} data data of sudoku
    * @returns {void}
    */
   displayGame() {
-    console.log(this.state.data);
+    // console.log(this.state.data);
     this.setState({ isLoading: false });
   }
 
@@ -54,7 +66,7 @@ class NewGame extends React.Component {
       </div>
     ) : (
       <div className="align-center">
-        <SudokuBoard data={data} />
+        <SudokuBoard data={data} onVictory={this.onVictory} />
       </div>
     );
   }

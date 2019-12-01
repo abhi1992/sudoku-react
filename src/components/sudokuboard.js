@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 import c from '../constants';
 
+
 export const styles = () => ({
   button: {
     color: 'primary',
@@ -22,7 +23,7 @@ export class SudokuBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      x: 0, y: 0, offX: 0, offY: 0, data: {},
+      x: 0, y: 0, offX: 0, offY: 0, data: {}, isErrored: [],
     };
   }
 
@@ -87,17 +88,37 @@ export class SudokuBoard extends React.Component {
     }
   };
 
+  checkForVictory = () => {
+    const { data, isErrored } = this.state;
+    if (isErrored.length > 0) {
+      console.log('>0');
+      return false;
+    }
+    for (let i = 0; i < 81; i += 1) {
+      if (!data[i].filled && !data[i].fixed) {
+        console.log('ff');
+        return false;
+      }
+    }
+    return true;
+  }
+
   eraseValue = () => {
     this.fillValue(0, false);
   }
 
   fillValue = (value, filled = true) => {
     const { data, x, y } = this.state;
+    const { onVictory } = this.props;
     const idx = this.convertXYtoIndex(x, y);
     if (idx > -1 && idx < 81 && !data[idx].fixed) {
       data[idx].value = value;
       data[idx].filled = filled;
       this.drawBoard(this.state.offX, this.state.offY);
+      const victory = this.checkForVictory();
+      if (victory) {
+        onVictory('00:00');
+      }
     }
   }
 
@@ -321,6 +342,9 @@ export class SudokuBoard extends React.Component {
       // console.log('zz - ', idx);
       if (data[idx].value === num && data[idx].filled) {
         const coord = this.getCoordinatesFromIndex(idx);
+        const { isErrored } = this.state;
+        isErrored.push(idx);
+        this.setState({ isErrored });
         this.selectCubeById(coord.x, coord.y, 'rgb(200,0,0, 0.3)');
       }
     }
@@ -332,6 +356,9 @@ export class SudokuBoard extends React.Component {
       // console.log('zz - ', idx);
       if (data[idx].value === num && data[idx].filled) {
         const coord = this.getCoordinatesFromIndex(idx);
+        const { isErrored } = this.state;
+        isErrored.push(idx);
+        this.setState({ isErrored });
         this.selectCubeById(coord.x, coord.y, 'rgb(200,0,0, 0.3)');
       }
     }
@@ -351,6 +378,9 @@ export class SudokuBoard extends React.Component {
         const idx = (rowStart + i) * 9 + colStart + j;
         if (data[idx].value === num && data[idx].filled) {
           const coord = this.getCoordinatesFromIndex(idx);
+          const { isErrored } = this.state;
+          isErrored.push(idx);
+          this.setState({ isErrored });
           this.selectCubeById(coord.x, coord.y, 'rgb(200,0,0, 0.3)');
         }
       }
@@ -452,7 +482,6 @@ export class SudokuBoard extends React.Component {
           { x }
           { y }
         </h1>
-        <br />
       </div>
     );
   }
@@ -460,4 +489,5 @@ export class SudokuBoard extends React.Component {
 
 SudokuBoard.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onVictory: PropTypes.func.isRequired,
 };
