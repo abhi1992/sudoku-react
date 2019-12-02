@@ -1,7 +1,7 @@
 {
   "name": "sudoku-react",
   "description": "A sudoku game built with react",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.7.0",
