@@ -28,7 +28,10 @@ class Victory extends React.Component {
    * @returns {void} null
    */
   componentDidMount() {
-    fetchVictory((data) => {
+    const { id } = this.props.match.params;
+    console.log('not id ', id);
+    fetchVictory({ id }, (data) => {
+      console.log('res', data);
       this.setState(
         {
           isLoading: false,
@@ -105,6 +108,11 @@ Victory.propTypes = {
   history: PropTypes.shape({
     goBack: PropTypes.func,
     push: PropTypes.func,
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
   }).isRequired,
 };
 

@@ -1,8 +1,8 @@
 export default {
   GAME_NAME: 'Sudoku',
   Version: 'v0.0.1',
-  NEWGAME_URL: 'http://localhost:8080/api',
-  VICTORY_URL: 'http://localhost:8080/api/victory',
+  NEWGAME_URL: 'http://localhost:3001/api/v1/sudoku',
+  VICTORY_URL: 'http://localhost:3001/api/v1/victory',
   UP: 38,
   DOWN: 40,
   LEFT: 37,

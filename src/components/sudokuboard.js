@@ -85,27 +85,37 @@ class SudokuBoard extends React.Component {
   checkForVictory = () => {
     const { data, isErrored } = this.state;
     if (isErrored.length > 0) {
-      // console.log('>0');
+      console.log('>0', isErrored);
       return false;
     }
     for (let i = 0; i < 81; i += 1) {
       if (!data[i].filled && !data[i].fixed) {
-        // console.log('ff');
+        console.log('ff');
         return false;
       }
     }
     return true;
   }
 
+  removeError = (idx) => {
+    let { isErrored } = this.state;
+    isErrored = _.differenceBy(isErrored, [idx]);
+    console.log('remove', isErrored);
+    this.setState({ isErrored }, function () {
+      this.checkForVictory();
+    });
+  }
+
   eraseValue = () => {
     this.fillValue(0, false);
   }
 
-  fillValue = (value, filled = true) => {
+  fillValue = async (value, filled = true) => {
     const { data, x, y } = this.state;
     const { onVictory } = this.props;
     const idx = this.convertXYtoIndex(x, y);
     if (idx > -1 && idx < 81 && !data[idx].fixed) {
+      await this.removeError(idx);
       data[idx].value = value;
       data[idx].filled = filled;
       this.drawBoard(this.state.offX, this.state.offY);

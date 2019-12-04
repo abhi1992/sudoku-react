@@ -1,6 +1,6 @@
 {
   "name": "sudoku-react",
-  "description": "A sudoku game built with react",
+  "description": "A sudoku game built with react and d3",
   "version": "1.0.0",
   "private": true,
   "dependencies": {

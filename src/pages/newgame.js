@@ -27,22 +27,26 @@ class NewGame extends React.Component {
    * @returns {void}
    */
   componentDidMount() {
-    fetchNewGame((data) => {
+    fetchNewGame((res) => {
       this.setState({
-        data: data.data,
+        data: res.data,
       });
       this.displayGame();
     });
   }
 
-  onVictory = (time) => {
+  onVictoryPost = (time) => {
     // this.setState({ time });
     const { history } = this.props;
     this.setState({
       isLoading: true,
     });
-    postVictory({ time }, () => {
-      history.push('/victory');
+    postVictory({ time }, (res) => {
+      // eslint-disable-next-line
+      const id = res._id;
+      history.push(`/victory/${id}`, {
+        state: { id },
+      });
     });
   }
 
@@ -68,7 +72,7 @@ class NewGame extends React.Component {
       </div>
     ) : (
       <div className="align-center">
-        <SudokuBoard data={data} onVictory={this.onVictory} />
+        <SudokuBoard data={data} onVictory={this.onVictoryPost} />
       </div>
     );
   }
@@ -80,4 +84,5 @@ NewGame.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  store: PropTypes.shape({}).isRequired,
 };

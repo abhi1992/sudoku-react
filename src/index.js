@@ -10,6 +10,7 @@ import Constants from './constants';
 import NewGame from './pages/newgame';
 import Victory from './pages/victory';
 
+
 ReactDOM.render(
   <Router history={history}>
     <Switch>
@@ -19,8 +20,8 @@ ReactDOM.render(
         component={NewGame}
       />
       <Route
-        exact path="/victory"
-        render={() => <Victory history={history} />}
+        exact path="/victory/:id"
+        render={(props) => <Victory {...props} history={history} />}
       />
       <Route exact path="/about" render={() => <About game={Constants.GAME_NAME} history={history} version={Constants.Version} />} />
     </Switch>
