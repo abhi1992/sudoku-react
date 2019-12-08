@@ -85,12 +85,10 @@ class SudokuBoard extends React.Component {
   checkForVictory = () => {
     const { data, isErrored } = this.state;
     if (isErrored.length > 0) {
-      console.log('>0', isErrored);
       return false;
     }
     for (let i = 0; i < 81; i += 1) {
       if (!data[i].filled && !data[i].fixed) {
-        console.log('ff');
         return false;
       }
     }
@@ -100,8 +98,7 @@ class SudokuBoard extends React.Component {
   removeError = (idx) => {
     let { isErrored } = this.state;
     isErrored = _.differenceBy(isErrored, [idx]);
-    console.log('remove', isErrored);
-    this.setState({ isErrored }, function () {
+    this.setState({ isErrored }, () => {
       this.checkForVictory();
     });
   }
@@ -450,8 +447,8 @@ class SudokuBoard extends React.Component {
     return (
       <div className="svg-container">
         <svg
-          width="600"
-          height="600"
+          width="550"
+          height="550"
           onMouseMove={this.onMouseMove.bind(this)}
           onClick={this.onSvgClick.bind(this)}
           focusable="true"

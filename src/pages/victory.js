@@ -29,9 +29,7 @@ class Victory extends React.Component {
    */
   componentDidMount() {
     const { id } = this.props.match.params;
-    console.log('not id ', id);
     fetchVictory({ id }, (data) => {
-      console.log('res', data);
       this.setState(
         {
           isLoading: false,
