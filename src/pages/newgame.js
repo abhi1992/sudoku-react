@@ -129,7 +129,6 @@ class NewGame extends React.Component {
    * @returns {void}
    */
   displayGame() {
-    // console.log(this.state.data);
     this.setState({ isLoading: false });
   }
 
@@ -156,7 +155,7 @@ class NewGame extends React.Component {
         />
         <HintsRadioButton
           onHintsClick={this.onHintsRadioClicked}
-          onValuesClick={this.onValuesRadioClick}
+          onValuesClick={this.onValuesRadioClicked}
         />
       </div>
     );
