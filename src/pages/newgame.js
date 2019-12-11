@@ -168,5 +168,4 @@ NewGame.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  store: PropTypes.shape({}).isRequired,
 };
