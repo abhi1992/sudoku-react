@@ -109,17 +109,32 @@ class SudokuBoard extends React.Component {
 
   fillValue = async (value, filled = true) => {
     const { data, x, y } = this.state;
-    const { onVictory } = this.props;
+    const { onVictory, hints } = this.props;
     const idx = this.convertXYtoIndex(x, y);
-    if (idx > -1 && idx < 81 && !data[idx].fixed) {
+    if (!hints && idx > -1 && idx < 81 && !data[idx].fixed) {
       await this.removeError(idx);
       data[idx].value = value;
       data[idx].filled = filled;
       this.drawBoard(this.state.offX, this.state.offY);
       const victory = this.checkForVictory();
       if (victory) {
-        onVictory('00:00');
+        onVictory();
       }
+    } else if (hints && idx > -1 && idx < 81 && !data[idx].fixed) {
+      await this.removeError(idx);
+      if (_.indexOf(data[idx].hint, value) === -1) {
+        data[idx].hint.push(value);
+      } else {
+        data[idx].hint = _.difference(data[idx].hint, [value]);
+      }
+      data[idx].value = 0;
+      data[idx].filled = false;
+      this.setState({
+        data,
+      }, () => {
+        // this.insertSudokuNumbers(this.state.data);
+      });
+      this.drawBoard(this.state.offX, this.state.offY);
     }
   }
 
@@ -215,19 +230,77 @@ class SudokuBoard extends React.Component {
     };
   }
 
-  insertSudokuNumbers = () => {
-    const { data } = this.props;
+  insertSudokuNumbers = (data) => {
     data.forEach((elem) => {
       const coord = this.getCoordinatesFromIndex(elem.index);
       if (elem.fixed) {
-        // Do Something
         this.selectCubeById(coord.x, coord.y, 'rgb(100,100,100, 0.1)');
       }
       if (elem.filled || elem.fixed) {
-        // Do Something
         this.drawText(coord.x * 60 + coord.padding, coord.y * 60 + 2 * coord.padding, elem.value);
       }
+      if (!elem.filled && elem.hint && elem.hint.length > 0) {
+        this.drawHints(elem, coord);
+      }
     });
+  }
+
+  mapNumberToCoord = (num) => {
+    let x = 0;
+    let y = 0;
+    switch (num) {
+      case 1:
+        x = 5;
+        y = 15;
+        break;
+      case 2:
+        x = 25;
+        y = 15;
+        break;
+      case 3:
+        x = 45;
+        y = 15;
+        break;
+      case 4:
+        x = 5;
+        y = 35;
+        break;
+      case 5:
+        x = 25;
+        y = 35;
+        break;
+      case 6:
+        x = 45;
+        y = 35;
+        break;
+      case 7:
+        x = 5;
+        y = 55;
+        break;
+      case 8:
+        x = 25;
+        y = 55;
+        break;
+      case 9:
+        x = 45;
+        y = 55;
+        break;
+      default:
+        break;
+    }
+    return {
+      x,
+      y,
+    };
+  }
+
+  drawHints = (elem, coord) => {
+    for (let i = 1; i < 10; i += 1) {
+      if (_.indexOf(elem.hint, i) !== -1) {
+        const { x, y } = this.mapNumberToCoord(i);
+        this.drawText(coord.x * 60 + x, coord.y * 60 + y, i, '16px');
+      }
+    }
   }
 
   drawText = (x, y, text, fontSize = '32px', fill = 'rgb(0, 0, 0)') => {
@@ -260,7 +333,7 @@ class SudokuBoard extends React.Component {
     }
     const coord = this.getCubeIdForLocation(x, y);
     this.drawSelectedSquare(coord.x, coord.y);
-    this.insertSudokuNumbers();
+    this.insertSudokuNumbers(this.state.data.length === 0 ? this.state.data : this.props.data);
     this.validateSudoku();
   }
 
@@ -463,4 +536,5 @@ export default SudokuBoard;
 SudokuBoard.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onVictory: PropTypes.func.isRequired,
+  hints: PropTypes.bool.isRequired,
 };

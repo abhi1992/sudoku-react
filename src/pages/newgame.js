@@ -4,6 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { fetchNewGame, postVictory } from '../services/api';
 import SudokuBoard from '../components/sudokuboard';
 import Timer from '../components/timer';
+import HintsRadioButton from '../components/hintsradiobutton';
 
 /**
  * React Component
@@ -23,6 +24,7 @@ class NewGame extends React.Component {
       hr: '00',
       min: '00',
       sec: '00',
+      hints: false,
     };
   }
 
@@ -36,6 +38,7 @@ class NewGame extends React.Component {
         data: res.data,
         stopTimer: false,
       });
+      // console.log(res.data);
       this.displayGame();
       setInterval(this.tick, 1000);
     });
@@ -108,6 +111,18 @@ class NewGame extends React.Component {
     });
   }
 
+  onHintsRadioClicked = () => {
+    this.setState({
+      hints: true,
+    });
+  }
+
+  onValuesRadioClicked = () => {
+    this.setState({
+      hints: false,
+    });
+  }
+
   /**
    * Displays the sudoku
    * @param {Object} data data of sudoku
@@ -124,7 +139,7 @@ class NewGame extends React.Component {
    */
   render() {
     const {
-      isLoading, data, hr, min, sec, stopTimer,
+      isLoading, data, hr, min, sec, stopTimer, hints,
     } = this.state;
     return isLoading ? (
       <div className="align-center margin-200">
@@ -132,12 +147,16 @@ class NewGame extends React.Component {
       </div>
     ) : (
       <div className="align-center">
-        <SudokuBoard data={data} onVictory={this.onVictoryPost} />
+        <SudokuBoard hints={hints} data={data} onVictory={this.onVictoryPost} />
         <Timer
           hr={hr}
           min={min}
           sec={sec}
           stopTimer={stopTimer}
+        />
+        <HintsRadioButton
+          onHintsClick={this.onHintsRadioClicked}
+          onValuesClick={this.onValuesRadioClick}
         />
       </div>
     );
